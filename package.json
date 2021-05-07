@@ -9,7 +9,7 @@
     "test": "NODE_ENV=test mocha --check-leaks -r tsconfig-paths/register -r ts-node/register \"test/**/*.spec.ts\""
   },
   "author": "",
-  "license": "ISC",
+  "license": "ISC", 
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",

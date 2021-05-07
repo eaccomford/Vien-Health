@@ -1,5 +1,4 @@
 import 'dotenv/config'
-import express, {Application, Response, Request, NextFunction} from 'express'
 import createServer from 'server'
 
 const startServer = () => {

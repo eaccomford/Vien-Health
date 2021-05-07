@@ -22,6 +22,7 @@ const extractJWT = (req:Request, res: Response, next: NextFunction) => {
             }
         });
     }else{
+        logging.info(NAMESPACE, 'validating token')
         return res.status(401).json({
             message: 'Validation Failed'
         })
