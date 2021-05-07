@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import { url } from 'inspector';
 
 dotenv.config();
 

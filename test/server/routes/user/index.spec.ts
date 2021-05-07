@@ -6,16 +6,21 @@ const expect = chai.expect
 
 const app = createServer()
 
+var auth: any = {};
+before(loginUser(auth));
+
 describe('GET /user/users', ()=>{
     it('it should return 200 if users are fatched', (done) => {
-        request(app).get('/user/users').expect(200, done)
+        request(app)
+        .get('/user/users')
+        .set('Authorization', 'bearer ' + auth.token)
+        .expect(200, done)
     });
 })
 
 
 
-var auth: any = {};
-before(loginUser(auth));
+
 describe('GET /user/validate', ()=>{
     it('it should return 200 if the validation was successful', (done) => {
         request(app)
@@ -47,13 +52,13 @@ function loginUser(auth:any) {
     it("it shoud return status code 200 if a user is created in the system", function(done) {
       request(app)
         .post("/user/register")
-        .send({ username: "ama4", password: "password",firstname: "John", lastname: "Makafui"})
+        .send({ username: "test-user-name1", password: "password",firstname: "John", lastname: "Makafui"})
         .expect(201)
         .end(function(err, res){
           if (err) {
-              done(err)
+              done(res.text)
             }else{
-               done(); 
+               done(err); 
             }
         });
     });
@@ -73,10 +78,10 @@ describe("POST /user/login'", function(){
         });
     });
   });
-  describe("POST /user/logout'", function(){
+  describe("PUT /user/logout'", function(){
     it("it shoud return status code 200 if logout is successful", function(done) {
       request(app)
-        .post("/user/logout")
+        .put("/user/logout")
         .send({ userid: "magaret" })
         .expect(200)
         .end(function(err, res){

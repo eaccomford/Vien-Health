@@ -76,9 +76,12 @@ const login = (req: Request, res: Response, next: NextFunction) => {
                     message: 'Unauthorised login'
                 })
             }
-            bcrypt.compare(password, users[0].password, (err, result) => {
-                if (err) {
-                    logging.error(NAMESPACE, err.message, err);
+            bcrypt.compare(password, users[0].password, (_,err) => {
+                console.log('errrrr');
+                console.log(err);
+                
+                if (!err) {
+                    logging.error(NAMESPACE, 'wrong username or password', err);
                     return res.status(401).json({
                         message: 'Invalid credentials'
                     })
@@ -94,11 +97,14 @@ const login = (req: Request, res: Response, next: NextFunction) => {
                             console.log('updating reecord', users[0].id )
                             
                             try {
-                                
                                 const filter = { _id: users[0].id };
-                                const update = { status: 0 };
+                                const update = {  $set:{status: 0} };
                                 let user = User.findOneAndUpdate(filter, update, {
                                     returnOriginal: true
+                                }, function( error, result){
+                                    console.log('error---');
+                                    console.log(result);
+                                    
                                 });
                                 
                                 // return success if status is set to 0 (on)
@@ -148,9 +154,9 @@ const logoutUser =  async (req: Request, res: Response, next: NextFunction) => {
             returnOriginal: true
         });
 
-        return res.status(201).json({ success: 'user logged out' })
+        return res.status(200).json({ success: 'user logged out' })
     } catch (error) {
-        return res.status(201).json({ "Error": error })
+        return res.status(401).json({ "Error": error })
     }
 }
 
