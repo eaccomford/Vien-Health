@@ -14,7 +14,8 @@ const signJWT = (user: UserInterface, callback: (error: Error | null, token: str
 
     try {
         jwt.sign({
-            username: user.username
+            username: user.username,
+            id: user._id
         },
         config.server.token.secret,
         {

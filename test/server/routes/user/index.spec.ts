@@ -73,3 +73,18 @@ describe("POST /user/login'", function(){
         });
     });
   });
+  describe("POST /user/logout'", function(){
+    it("it shoud return status code 200 if logout is successful", function(done) {
+      request(app)
+        .post("/user/logout")
+        .send({ userid: "magaret" })
+        .expect(200)
+        .end(function(err, res){
+            if (err) {
+                done(err)
+              }else{
+                 done(); 
+              }
+        });
+    });
+  });

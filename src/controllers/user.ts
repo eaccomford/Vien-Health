@@ -73,7 +73,7 @@ const login = (req: Request, res: Response, next: NextFunction) => {
         .then((users) => {
             if (users.length !== 1) {
                 return res.status(401).json({
-                    message: 'too many record returned by the server'
+                    message: 'Unauthorised login'
                 })
             }
             bcrypt.compare(password, users[0].password, (err, result) => {
@@ -90,9 +90,26 @@ const login = (req: Request, res: Response, next: NextFunction) => {
                                 message: 'Unauthorised - token not signed for user', error: _error
                             })
                         } else if (token) {
-                            return res.status(200).json({
-                                message: 'success', token, user: users[0]
-                            })
+                            // update user status
+                            console.log('updating reecord', users[0].id )
+                            
+                            try {
+                                
+                                const filter = { _id: users[0].id };
+                                const update = { status: 0 };
+                                let user = User.findOneAndUpdate(filter, update, {
+                                    returnOriginal: true
+                                });
+                                
+                                // return success if status is set to 0 (on)
+                                return res.status(200).json({
+                                    message: 'success', token, user: users[0]
+                                })
+                            } catch (error) {
+                                return res.status(201).json({ error })
+                            }
+
+                           
                         }
                     })
                 }
@@ -122,5 +139,22 @@ const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
         });
 
 }
+const logoutUser =  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // turn user status to 1 (logoud out)
+        const filter = { _id: req.body.id };
+        const update = { status: 1 };
+        let user = await User.findOneAndUpdate(filter, update, {
+            returnOriginal: true
+        });
 
-export default { validateToken, register, login, getAllUsers }
+        return res.status(201).json({ success: 'user logged out' })
+    } catch (error) {
+        return res.status(201).json({ "Error": error })
+    }
+}
+
+
+
+
+export default { validateToken, register, login, getAllUsers, logoutUser }

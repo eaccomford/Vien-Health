@@ -8,7 +8,8 @@ const router = Router()
 // @desc Athenticate a user
 // @access Public
 
-router.get('/users', controller.getAllUsers)
+router.get('/users', extractJWT, controller.getAllUsers)
+router.put('/logout', controller.logoutUser)
 router.post('/login', controller.login)
 router.post('/register', controller.register)
 router.get('/validate', extractJWT, controller.validateToken)
