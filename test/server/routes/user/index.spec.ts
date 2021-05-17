@@ -48,21 +48,21 @@ function loginUser(auth:any) {
     };
 }
 
-  describe("POST /user/register'", function(){
-    it("it shoud return status code 200 if a user is created in the system", function(done) {
-      request(app)
-        .post("/user/register")
-        .send({ username: "test-user-name1", password: "password",firstname: "John", lastname: "Makafui"})
-        .expect(201)
-        .end(function(err, res){
-          if (err) {
-              done(res.text)
-            }else{
-               done(err); 
-            }
-        });
-    });
-  });
+  // describe("POST /user/register'", function(){
+  //   it("it shoud return status code 200 if a user is created in the system", function(done) {
+  //     request(app)
+  //       .post("/user/register")
+  //       .send({ username: "test-user-name1", password: "password",firstname: "John", lastname: "Makafui"})
+  //       .expect(201)
+  //       .end(function(err, res){
+  //         if (err) {
+  //             done(res.text)
+  //           }else{
+  //              done(err); 
+  //           }
+  //       });
+  //   });
+  // });
 describe("POST /user/login'", function(){
     it("it shoud return status code 200 if login is successful", function(done) {
       request(app)

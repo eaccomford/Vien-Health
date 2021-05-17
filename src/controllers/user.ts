@@ -3,7 +3,7 @@ import 'dotenv/config'
 import bcrypt from 'bcryptjs'
 import mongoose from 'mongoose'
 import User from '../models/user'
-import signJWT from '../functions/signJWT'
+import signJWT from '../services/signJWT'
 import express, { Application, Response, Request, NextFunction } from 'express'
 const NAMESPACE = "User"
 
